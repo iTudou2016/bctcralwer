@@ -1,0 +1,26 @@
+{
+  "name": "bctcrawler",
+  "version": "1.0.0",
+  "description": "bitcointalk crawler",
+  "main": "index.js",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "crawler": "^1.1.4",
+    "express": "^4.16.3",
+    "pug": "^2.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTudou2016/bctcrawler.git"
+  },
+  "author": "xxcc",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iTudou2016/bctcrawler/issues"
+  },
+  "homepage": "https://github.com/iTudou2016/bctcrawler#readme"
+}
