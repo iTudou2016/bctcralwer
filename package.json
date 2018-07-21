@@ -2,7 +2,7 @@
   "name": "bctcrawler",
   "version": "1.0.0",
   "description": "bitcointalk crawler",
-  "main": "index.js",
+  "main": "bct.js",
   "dependencies": {
     "cheerio": "^1.0.0-rc.2",
     "crawler": "^1.1.4",

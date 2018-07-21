@@ -1,22 +1,18 @@
 doctype html
 html
   head
-    meta(charset='utf-8')
-    title!=title
+    meta(charset='utf-8' name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1")
+    meta(http-equiv="refresh" content="900")
+    link(href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet")
+    link(href="//cdn.bootcss.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet")
+    link(href="/css/default.css" rel="stylesheet")
+    title!=title  
     style(type="text/css").
       h1 {color:red;}
       #mytimer {color:green;}
   body
     h1 Bitcointalk ANN update
-    form(method="POST", action="/")
-      input(type="hidden", name="_method", value="PUT")
-      input(type="submit")
-
-    div(id="mytimer")
-    script(type="text/javascript")
-        |setInterval(function() {document.getElementById("mytimer").innerHTML=new Date().toLocaleTimeString();},1000);
-    p(id="status")
     ul
       for item in message      
           li
-             a(target= "_blank" href="#{item.ann_href}")       #{item.ann_msgID}  :   #{item.ann_title}
+             a(target= "_blank" href=item.ann_href)       #{item.ann_msgID}  :   #{item.ann_title}

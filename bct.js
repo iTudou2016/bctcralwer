@@ -8,18 +8,22 @@ const request = require('request');
 var Crawler = require("crawler");
 
 app.set('views','.');
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
+//GET method route
 app.get('/', function(req, res) {
- res.render('index', {title: 'BCT ANN list', message: ''});
+ fetchannData(res);
 });
 
+app.get('/css/default.css', function(req, res) {
+res.sendFile(__dirname+'/css/default.css');
+});
 // POST method route
 app.post('/', function (req, res) {
   fetchannData(res);
 });
 
-var server = app.listen(8080, function () {
+var server = app.listen(80, function () {
 var host = server.address().address;
 var port = server.address().port;
   console.log('Bitcointalk crawler listening at http://%s:%s', host, port);
