@@ -9,15 +9,15 @@ html
     title!=title  
     style(type="text/css").
       h1 {color:red;}
-      #home {color:blue; font-size: 18px}
+      #home {margin: 20 80px}
   body
     center 
-        h1 Bitcointalk ANN update
-        h2
-    ul
-      for item in message      
-          li
-             a(target= "_blank" href=item.ann_href)       #{item.ann_msgID}  :   #{item.ann_title}
+        h1 Bitcointalk ANN update        
+    div(id="home")
+      ul
+        for item in message      
+            li
+               a(target= "_blank" href=item.ann_href)       #{item.ann_msgID}  :   #{item.ann_title}
   footer
         div(class="text-muted")
            span Powered by 
