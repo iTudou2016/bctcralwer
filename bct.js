@@ -32,6 +32,7 @@ var port = server.address().port;
 
 //每隔1小时爬一次数据。
 setInterval(crawlData, 60*60*1000);
+crawlData();
 
 function fetchData(res) {
      report=JSON.parse(fs.readFileSync("crawler.json"));
