@@ -13,9 +13,15 @@ html
   body
     center 
         h1 Bitcointalk ANN update
-        a(id="home" href="https:www.cnpool.vip") 空气池 It's time to breathe fresh air.
         h2
     ul
       for item in message      
           li
              a(target= "_blank" href=item.ann_href)       #{item.ann_msgID}  :   #{item.ann_title}
+  footer
+        div(class="text-muted")
+           span Powered by 
+             a(target="_blank" href="http://www.cnpool.vip")
+                span  空气池cnpool.vip 
+           span   QQ交流群：686394624
+             a(href="http://13.229.228.125")   小福利
