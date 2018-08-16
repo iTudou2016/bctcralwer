@@ -5,6 +5,7 @@ var app = express();
 const http = require('http');
 const cheerio = require('cheerio');
 const request = require('request');
+const fs = require('fs');
 var Crawler = require("crawler");
 
 app.set('views','.');
@@ -12,7 +13,7 @@ app.set('view engine', 'pug');
 
 //GET method route
 app.get('/', function(req, res) {
- fetchannData(res);
+ fetchData(res);
 });
 
 app.get('/css/default.css', function(req, res) {
@@ -20,7 +21,7 @@ res.sendFile(__dirname+'/css/default.css');
 });
 // POST method route
 app.post('/', function (req, res) {
-  fetchannData(res);
+
 });
 
 var server = app.listen(80, function () {
@@ -29,7 +30,14 @@ var port = server.address().port;
   console.log('Bitcointalk crawler listening at http://%s:%s', host, port);
 });
 
-function fetchannData(svrres) {
+//每隔1小时爬一次数据。
+setInterval(crawlData, 60*60*1000);
+
+function fetchData(res) {
+     report=JSON.parse(fs.readFileSync("crawler.json"));
+     res.render('index', {title: 'BCT ANN list', message: report});
+}
+function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
 var task = [];
@@ -49,7 +57,7 @@ var c = new Crawler({
 	var ann_msgID = $(e).attr('id').replace("msg_", "");
 	var ann_title = $(e).text();
 	var ann_href = $(e).find('a').attr('href');
-	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4600000 ) {
+	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4880000 ) {
 	         // 向数组插入数据
 	         bctannData.push({
 		ann_msgID: ann_msgID + "//" + ann_href.slice(40, -2),
@@ -63,6 +71,7 @@ var c = new Crawler({
     }
 });
 process.stdout.write(new Date().toLocaleTimeString() + ": Crawler work starting.");
+//每次爬取20页数据
   for (var i=0; i<20; i++)
   {
        task.push('https://bitcointalk.org/index.php?board=159.' + i*40);
@@ -72,6 +81,9 @@ c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + bctannData.length + " links crawled!");
-   svrres.render('index', {title: 'BCT ANN list', message: bctannData});
+   fs.writeFileSync("crawler.json", JSON.stringify(bctannData), (err) => {
+  if (err) throw err;
+  console.log('文件已保存！');
+});
 });
 }
