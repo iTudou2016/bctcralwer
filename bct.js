@@ -61,7 +61,8 @@ var c = new Crawler({
 	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4880000 ) {
 	         // 向数组插入数据
 	         bctannData.push({
-		ann_msgID: ann_msgID + "//" + ann_href.slice(40, -2),
+	//	ann_msgID : ann_msgID + "//" + ann_href.slice(40, -2),
+		ann_msgID : ann_href.slice(40, -2),
 		ann_title : ann_title,
 		ann_href : ann_href,
 	          });
