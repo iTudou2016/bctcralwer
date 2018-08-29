@@ -83,6 +83,7 @@ c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + bctannData.length + " links crawled!");
+   process.env.TZ = 'Asia/Shanghai';
    bctannData.push({"updateTime" : new Date().toLocaleTimeString()});
    fs.writeFileSync("crawler.json", JSON.stringify(bctannData), (err) => {
   if (err) throw err;
