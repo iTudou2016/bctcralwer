@@ -58,7 +58,7 @@ var c = new Crawler({
 	var ann_msgID = $(e).attr('id').replace("msg_", "");
 	var ann_title = $(e).text();
 	var ann_href = $(e).find('a').attr('href');
-	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4880000 ) {
+	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4930000 ) {
 	         // 向数组插入数据
 	         bctannData.push({
 	//	ann_msgID : ann_msgID + "//" + ann_href.slice(40, -2),
@@ -83,6 +83,7 @@ c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + bctannData.length + " links crawled!");
+   bctannData.push({"updateTime" : Date().toLocaleTimeString()});
    fs.writeFileSync("crawler.json", JSON.stringify(bctannData), (err) => {
   if (err) throw err;
   console.log('文件已保存！');
