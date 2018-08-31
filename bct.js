@@ -42,6 +42,8 @@ function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
 var task = [];
+var lastFilterID = Number(JSON.parse(fs.readFileSync("filter.json")).pop().lastFilterID) || 4880000;
+console.log(lastFilterID);	
 var c = new Crawler({
     //maxConnections : 10,
     rateLimit: 500,
@@ -58,7 +60,11 @@ var c = new Crawler({
 	var ann_msgID = $(e).attr('id').replace("msg_", "");
 	var ann_title = $(e).text();
 	var ann_href = $(e).find('a').attr('href');
-	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>4930000 ) {
+                      if(Number(ann_href.slice(40, -2))-5000>lastFilterID) {
+lastFilterID = Number(ann_href.slice(40, -2)) - 5000;
+console.log(lastFilterID);
+}		    
+	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>lastFilterID ) {
 	         // 向数组插入数据
 	         bctannData.push({
 	//	ann_msgID : ann_msgID + "//" + ann_href.slice(40, -2),
