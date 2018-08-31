@@ -44,7 +44,6 @@ var bctannData = [];
 var task = [];
 var filter = JSON.parse(fs.readFileSync("filter.json"));
 var lastFilterID = Number(filter.pop().lastFilterID) || 4880000;
-console.log(lastFilterID);	
 var c = new Crawler({
     //maxConnections : 10,
     rateLimit: 500,
@@ -57,22 +56,19 @@ var c = new Crawler({
             process.stdout.write(".");
             // $ is Cheerio by default
             //a lean implementation of core jQuery designed specifically for the server
-            $("[id^='msg_4']").each(function(i, e) {
-	var ann_msgID = $(e).attr('id').replace("msg_", "");
-	var ann_title = $(e).text();
-	var ann_href = $(e).find('a').attr('href');
-        var ann_topicID = Number(ann_href.slice(40, -2));
-        if(ann_topicID-5000>lastFilterID) {
-            lastFilterID = ann_topicID - 5000;
-            console.log(lastFilterID);
-	}
-	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&ann_topicID>lastFilterID ) {
+        $("[id^='msg_4']").each(function(i, e) {
+	    var ann_msgID = $(e).attr('id').replace("msg_", "");
+	    var ann_title = $(e).text();
+	    var ann_href = $(e).find('a').attr('href');
+            var ann_topicID = Number(ann_href.slice(40, -2));
+            if(ann_topicID-8000>lastFilterID) {lastFilterID = ann_topicID - 8000;}
+	    if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&ann_topicID>lastFilterID ) {
 	    // 向数组插入数据
-	    bctannData.push({
- 		ann_topicID : ann_topicID,
-		ann_title : ann_title,
-		ann_href : ann_href,
-	    });
+	        bctannData.push({
+ 		    ann_topicID : ann_topicID,
+		    ann_title : ann_title,
+		    ann_href : ann_href,
+	        });
 	}
              });
         }
