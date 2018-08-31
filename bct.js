@@ -42,7 +42,8 @@ function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
 var task = [];
-var lastFilterID = Number(JSON.parse(fs.readFileSync("filter.json")).pop().lastFilterID) || 4880000;
+var filter = Number(JSON.parse(fs.readFileSync("filter.json"));
+var lastFilterID = filter.pop().lastFilterID) || 4880000;
 console.log(lastFilterID);	
 var c = new Crawler({
     //maxConnections : 10,
@@ -60,18 +61,18 @@ var c = new Crawler({
 	var ann_msgID = $(e).attr('id').replace("msg_", "");
 	var ann_title = $(e).text();
 	var ann_href = $(e).find('a').attr('href');
-                      if(Number(ann_href.slice(40, -2))-5000>lastFilterID) {
-lastFilterID = Number(ann_href.slice(40, -2)) - 5000;
-console.log(lastFilterID);
-}		    
-	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&Number(ann_href.slice(40, -2))>lastFilterID ) {
-	         // 向数组插入数据
-	         bctannData.push({
-	//	ann_msgID : ann_msgID + "//" + ann_href.slice(40, -2),
-		ann_msgID : ann_href.slice(40, -2),
+        var ann_topicID = Number(ann_href.slice(40, -2));
+        if(ann_topicID-5000>lastFilterID) {
+            lastFilterID = ann_topicID - 5000;
+            console.log(lastFilterID);
+	}
+	if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&ann_topicID>lastFilterID ) {
+	    // 向数组插入数据
+	    bctannData.push({
+ 		ann_topicID : ann_topicID,
 		ann_title : ann_title,
 		ann_href : ann_href,
-	          });
+	    });
 	}
              });
         }
@@ -90,9 +91,8 @@ c.on('drain',function(){
    process.stdout.write("\n");
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + bctannData.length + " links crawled!");
    bctannData.push({"updateTime" : new Date(new Date().getTime() + 28800000).toLocaleTimeString()});
-   fs.writeFileSync("crawler.json", JSON.stringify(bctannData), (err) => {
-  if (err) throw err;
-  console.log('文件已保存！');
-});
+   filter.push({"lastFilterID" : lastFilterID});
+   fs.writeFileSync("crawler.json", JSON.stringify(bctannData));
+   fs.writeFileSync("filter.json", JSON.stringify(filter));
 });
 }
