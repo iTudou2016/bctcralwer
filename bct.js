@@ -42,8 +42,8 @@ function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
 var task = [];
-var filter = Number(JSON.parse(fs.readFileSync("filter.json"));
-var lastFilterID = filter.pop().lastFilterID) || 4880000;
+var filter = JSON.parse(fs.readFileSync("filter.json"));
+var lastFilterID = Number(filter.pop().lastFilterID) || 4880000;
 console.log(lastFilterID);	
 var c = new Crawler({
     //maxConnections : 10,
