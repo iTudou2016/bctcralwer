@@ -61,7 +61,7 @@ var c = new Crawler({
 	    var ann_title = $(e).text();
 	    var ann_href = $(e).find('a').attr('href');
             var ann_topicID = Number(ann_href.slice(40, -2));
-            if(ann_topicID-8000>lastFilterID) {lastFilterID = ann_topicID - 8000;}
+            if(ann_topicID-12000>lastFilterID) {lastFilterID = ann_topicID - 12000;}
 	    if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&ann_topicID>lastFilterID ) {
 	    // 向数组插入数据
 	        bctannData.push({
