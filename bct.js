@@ -6,7 +6,7 @@ const http = require('http');
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-const ANNGAP = 10000;
+const ANNGAP = 6000;
 var Crawler = require("crawler");
 
 app.set('views','.');
