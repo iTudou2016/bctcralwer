@@ -97,7 +97,7 @@ c.queue(task);
 c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
-   bctannData.push({powData : powData, posData : posData});
+   bctannData.push({powData : powData}, {posData : posData});
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + (posData.length+powData.length) + " links crawled!");
    bctannData.push({"updateTime" : new Date(new Date().getTime() + 28800000).toLocaleTimeString()});
    filter.push({"lastFilterID" : lastFilterID});
