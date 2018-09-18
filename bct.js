@@ -6,7 +6,7 @@ const http = require('http');
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-const ANNGAP = 6000;
+const ANNGAP = 1000;
 var Crawler = require("crawler");
 
 app.set('views','.');
@@ -66,7 +66,7 @@ var c = new Crawler({
                 var ann_topicID = Number(ann_href.slice(40, -2));
                 if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
                 if(ann_title.search(/ANN/)>-1&&ann_topicID>lastFilterID ) {
-                    if(/POW/i.test(ann_title)) {
+                    if(/POW/i.test(ann_title)&&!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title)) {
 	                // 向pow数组插入数据
     	                powData.push({
  		            ann_topicID : ann_topicID,
