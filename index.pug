@@ -16,14 +16,14 @@ html
         - var update = message.pop();
         p 每小时抓取，最近更新：#{update.updateTime}
     div(id="home")
-      p POW ANN
+      p POW ANN (Total: #{message[0].powData.length})
       ul
-        for item in message.powData      
+        for item in message[0].powData      
             li
                a(target= "_blank" href=item.ann_href)       #{item.ann_topicID}  :   #{item.ann_title}
-      p POS ANN
+      p POS ANN (Total:  #{message[1].posData.length})
       ul
-        for item in message.posData      
+        for item in message[1].posData      
             li
                a(target= "_blank" href=item.ann_href)       #{item.ann_topicID}  :   #{item.ann_title}              
   footer
