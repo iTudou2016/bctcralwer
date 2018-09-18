@@ -37,7 +37,7 @@ crawlData();
 
 function fetchData(res) {
      report=JSON.parse(fs.readFileSync("crawler.json"));
-     res.render('index', {title: 'BCT ANN list', message: report});
+     res.render('index', {title: 'BCT ANN 更新', message: report});
     
 }
 function crawlData() {
