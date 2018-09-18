@@ -75,7 +75,7 @@ var c = new Crawler({
 		            ann_title : ann_title,
 		            ann_href : ann_href,
 	                });
-                    } else if (/MASTERNODE[^A-Z]|MN[^A-Z]/i.test(ann_title)) {
+                    } else if (/MASTERNODES|MASTERNODE[^A-Z]|MN[^A-Z]/i.test(ann_title)) {
 	                // 向mn数组插入数据
 	                mnData.push({
  		            ann_topicID : ann_topicID,
