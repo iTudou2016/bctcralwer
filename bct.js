@@ -6,7 +6,7 @@ const http = require('http');
 const cheerio = require('cheerio');
 const request = require('request');
 const fs = require('fs');
-const ANNGAP = 1000;
+const ANNGAP = 5000;
 var Crawler = require("crawler");
 
 app.set('views','.');
@@ -38,6 +38,7 @@ crawlData();
 function fetchData(res) {
      report=JSON.parse(fs.readFileSync("crawler.json"));
      res.render('index', {title: 'BCT ANN list', message: report});
+    
 }
 function crawlData() {
 // Queue just one URL, with default callback
@@ -97,7 +98,8 @@ c.queue(task);
 c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
-   bctannData.push({powData : powData}, {posData : posData});
+   bctannData.push({"powData" : powData});
+   bctannData.push({"posData" : posData});
    console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + (posData.length+powData.length) + " links crawled!");
    bctannData.push({"updateTime" : new Date(new Date().getTime() + 28800000).toLocaleTimeString()});
    filter.push({"lastFilterID" : lastFilterID});
