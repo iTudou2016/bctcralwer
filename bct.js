@@ -42,6 +42,8 @@ function fetchData(res) {
 function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
+var powData = [];
+var posData = [];
 var task = [];
 var filter = JSON.parse(fs.readFileSync("filter.json"));
 var lastFilterID = Number(filter.pop().lastFilterID) || 4880000;
@@ -57,21 +59,30 @@ var c = new Crawler({
             process.stdout.write(".");
             // $ is Cheerio by default
             //a lean implementation of core jQuery designed specifically for the server
-        $("[id^='msg_4']").each(function(i, e) {
-	    var ann_msgID = $(e).attr('id').replace("msg_", "");
-	    var ann_title = $(e).text();
-	    var ann_href = $(e).find('a').attr('href');
-            var ann_topicID = Number(ann_href.slice(40, -2));
-            if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
-	    if(ann_title.search(/ANN/)>-1&&(/POW/i.test(ann_title)||!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title))&&ann_topicID>lastFilterID ) {
-	    // 向数组插入数据
-	        bctannData.push({
- 		    ann_topicID : ann_topicID,
-		    ann_title : ann_title,
-		    ann_href : ann_href,
-	        });
-	}
-             });
+            $("[id^='msg_4']").each(function(i, e) {
+	        var ann_msgID = $(e).attr('id').replace("msg_", "");
+	        var ann_title = $(e).text();
+	        var ann_href = $(e).find('a').attr('href');
+                var ann_topicID = Number(ann_href.slice(40, -2));
+                if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
+                if(ann_title.search(/ANN/)>-1&&ann_topicID>lastFilterID ) {
+                    if(/POW/i.test(ann_title)) {
+	                // 向pow数组插入数据
+    	                powData.push({
+ 		            ann_topicID : ann_topicID,
+		            ann_title : ann_title,
+		            ann_href : ann_href,
+	                });
+                    } else if (/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title)) {
+	                // 向pos数组插入数据
+	                posData.push({
+ 		            ann_topicID : ann_topicID,
+		            ann_title : ann_title,
+		            ann_href : ann_href,
+	                });
+                    }
+                 }
+            });
         }
         done();
     }
@@ -86,7 +97,9 @@ c.queue(task);
 c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
-   console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + bctannData.length + " links crawled!");
+   bctannData.push(powData);
+   bctannData.push(posData);
+   console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + (posData.length+powData.length) + " links crawled!");
    bctannData.push({"updateTime" : new Date(new Date().getTime() + 28800000).toLocaleTimeString()});
    filter.push({"lastFilterID" : lastFilterID});
    fs.writeFileSync("crawler.json", JSON.stringify(bctannData));
