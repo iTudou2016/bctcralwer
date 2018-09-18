@@ -44,6 +44,7 @@ function crawlData() {
 // Queue just one URL, with default callback
 var bctannData = [];
 var powData = [];
+var mnData = [];
 var posData = [];
 var task = [];
 var filter = JSON.parse(fs.readFileSync("filter.json"));
@@ -67,14 +68,21 @@ var c = new Crawler({
                 var ann_topicID = Number(ann_href.slice(40, -2));
                 if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
                 if(ann_title.search(/ANN/)>-1&&ann_topicID>lastFilterID ) {
-                    if(/POW/i.test(ann_title)&&!/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title)) {
+                    if(/POW[^A-Z]/i.test(ann_title)&&!/ICO[^A-Z]|AIRDROP[^A-Z]|WHITELIST[^A-Z]|SALE[^A-Z]/i.test(ann_title)) {
 	                // 向pow数组插入数据
     	                powData.push({
  		            ann_topicID : ann_topicID,
 		            ann_title : ann_title,
 		            ann_href : ann_href,
 	                });
-                    } else if (/ICO|POS|AIRDROP|WHITELIST|SALE/i.test(ann_title)) {
+                    } else if (/MASTERNODE[^A-Z]|MN[^A-Z]/i.test(ann_title)) {
+	                // 向mn数组插入数据
+	                mnData.push({
+ 		            ann_topicID : ann_topicID,
+		            ann_title : ann_title,
+		            ann_href : ann_href,
+	                });
+                    } else if (/ICO[^A-Z]|POS[^A-Z]|AIRDROP[^A-Z]|WHITELIST[^A-Z]|SALE[^A-Z]/i.test(ann_title)) {
 	                // 向pos数组插入数据
 	                posData.push({
  		            ann_topicID : ann_topicID,
@@ -99,8 +107,9 @@ c.on('drain',function(){
     // 异步数据处理
    process.stdout.write("\n");
    bctannData.push({"powData" : powData});
+   bctannData.push({"mnData" : mnData});
    bctannData.push({"posData" : posData});
-   console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + (posData.length+powData.length) + " links crawled!");
+   console.log(new Date().toLocaleTimeString() + ": Crawler work done. " + (posData.length+mnData.length+powData.length) + " links crawled!");
    bctannData.push({"updateTime" : new Date(new Date().getTime() + 28800000).toLocaleTimeString()});
    filter.push({"lastFilterID" : lastFilterID});
    fs.writeFileSync("crawler.json", JSON.stringify(bctannData));
