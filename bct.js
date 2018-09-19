@@ -82,7 +82,7 @@ var c = new Crawler({
 		            ann_title : ann_title,
 		            ann_href : ann_href,
 	                });
-                    } else if (/\b(POS|DPOS|ICO|AIRDROP|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
+                    } else if (/\b(POS|DPOS|ICO|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
 	                // 向pos数组插入数据
 	                posData.push({
  		            ann_topicID : ann_topicID,
