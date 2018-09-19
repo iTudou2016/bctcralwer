@@ -68,21 +68,21 @@ var c = new Crawler({
                 var ann_topicID = Number(ann_href.slice(40, -2));
                 if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
                 if(ann_title.search(/ANN/)>-1&&ann_topicID>lastFilterID ) {
-                    if(/POW[^A-Z]/i.test(ann_title)&&!/ICO[^A-Z]|AIRDROP[^A-Z]|WHITELIST[^A-Z]|SALE[^A-Z]/i.test(ann_title)) {
+                    if(/\b(POW|LYRA2Z|ETHASH|X16R|QUARK|XEVAN|NEOSCRYPT|SCRYPT)\b/i.test(ann_title)&&!/\b(ICO|AIRDROP|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
 	                // 向pow数组插入数据
     	                powData.push({
  		            ann_topicID : ann_topicID,
 		            ann_title : ann_title,
 		            ann_href : ann_href,
 	                });
-                    } else if (/MASTERNODES|MASTERNODE[^A-Z]|MN[^A-Z]/i.test(ann_title)) {
+                    } else if (/\b(MASTERNODES|MASTERNODE|MN)\b/i.test(ann_title)) {
 	                // 向mn数组插入数据
 	                mnData.push({
  		            ann_topicID : ann_topicID,
 		            ann_title : ann_title,
 		            ann_href : ann_href,
 	                });
-                    } else if (/ICO[^A-Z]|POS[^A-Z]|AIRDROP[^A-Z]|WHITELIST[^A-Z]|SALE[^A-Z]/i.test(ann_title)) {
+                    } else if (/\b(POS|DPOS|ICO|AIRDROP|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
 	                // 向pos数组插入数据
 	                posData.push({
  		            ann_topicID : ann_topicID,
