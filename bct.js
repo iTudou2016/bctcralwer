@@ -20,7 +20,7 @@ app.get('/', function(req, res) {
  fetchData(res);
 });
 
-app.use(express.static('public'));
+app.use(express.static('css'));
 
 // POST method route
 app.post('/', function (req, res) {
