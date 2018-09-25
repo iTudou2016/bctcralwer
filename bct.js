@@ -8,9 +8,12 @@ const request = require('request');
 const fs = require('fs');
 const ANNGAP = 5000;
 var Crawler = require("crawler");
+var birds = require('./birds');
 
 app.set('views','.');
 app.set('view engine', 'pug');
+//Middle-ware birds
+app.use('/birds', birds);
 
 //GET method route
 app.get('/', function(req, res) {
