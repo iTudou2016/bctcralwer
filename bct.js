@@ -20,9 +20,11 @@ app.get('/', function(req, res) {
  fetchData(res);
 });
 
-app.get('/css/default.css', function(req, res) {
-res.sendFile(__dirname+'/css/default.css');
-});
+//app.get('/css/default.css', function(req, res) {
+//res.sendFile(__dirname+'/css/default.css');
+//});
+app.use(express.static('css'));
+
 // POST method route
 app.post('/', function (req, res) {
 
