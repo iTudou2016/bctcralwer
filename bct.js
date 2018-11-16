@@ -70,7 +70,7 @@ var c = new Crawler({
                 var ann_topicID = Number(ann_href.slice(40, -2));
                 if(ann_topicID-ANNGAP>lastFilterID) {lastFilterID = ann_topicID - ANNGAP;}
                 if(ann_title.search(/ANN/)>-1&&ann_topicID>lastFilterID ) {
-                    if(/\b(POW|LYRA2Z|ETHASH|X16R|QUARK|XEVAN|NEOSCRYPT|SCRYPT)\b/i.test(ann_title)&&!/\b(ICO|AIRDROP|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
+                    if(/\b(POW|CPU|X18|X22|YESCRYPTR32|LYRA2Z|ETHASH|X16R|QUARK|XEVAN|NEOSCRYPT|SCRYPT)\b/i.test(ann_title)&&!/\b(ICO|AIRDROP|WHITELIST|SALE|PRESALE)\b/i.test(ann_title)) {
 	                // 向pow数组插入数据
     	                powData.push({
  		            ann_topicID : ann_topicID,
